@@ -1,8 +1,5 @@
-"use client";
-
-import { Example } from "@/features/components/example";
-
+import { FarmSenseDashboard } from "@/features/farm-sense/farm-sense-dashboard";
 
 export default function Page() {
-  return <Example />;
+  return <FarmSenseDashboard />;
 }
