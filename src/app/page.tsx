@@ -1,8 +1,8 @@
 "use client";
 
-import { ComponentExample } from "@/features/components/component-example";
+import { Example } from "@/features/components/example";
 
 
 export default function Page() {
-  return <ComponentExample />;
+  return <Example />;
 }
