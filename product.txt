@@ -1,0 +1,363 @@
+# Farm Sense — Product Requirements
+
+## 1. Product Vision
+
+Build a farmer-friendly agricultural decision-support application using NASA Earth observation data.
+
+The application should help users understand environmental conditions affecting agriculture and explore information that supports better farming decisions.
+
+Focus on translating scientific Earth observation data into understandable, practical visual information.
+
+**Target region:** Myanmar.
+
+**Target users:**
+
+- Farmers
+- Agricultural researchers
+- Agricultural specialists
+- People interested in agricultural and environmental conditions
+
+## 2. Design Direction
+
+### Visual Identity
+
+- Pixel-art inspired visual identity.
+- Modern, clean, and intuitive dashboard.
+- Agricultural and Earth observation theme.
+- Use a consistent pixel-inspired visual language without sacrificing readability.
+- Keep the interface visually engaging but avoid excessive decoration.
+- Use subtle animations and meaningful interactions.
+
+### Logo Animation
+
+- Identify the existing Field Share logo/icon in the reference design.
+- Add a subtle pixel-style animation to the logo.
+- Animation should feel natural and purposeful.
+- Avoid distracting or continuous aggressive movement.
+- Respect reduced-motion accessibility preferences.
+
+### User Experience
+
+- Prioritize readability and visual hierarchy.
+- Use clear typography and sufficient contrast.
+- Make important agricultural information easy to understand.
+- Use descriptive labels instead of unexplained scientific terminology.
+- Display measurement units alongside values.
+- Use tooltips or short explanations for scientific metrics.
+- Provide clear loading, error, empty, and unavailable states.
+- Ensure responsive layouts for desktop, tablet, and mobile.
+
+**Design reference:** The provided UI is an inspiration, not a strict implementation template. Improve the layout and usability where appropriate while preserving the pixel-art identity.
+
+## 3. Functional Requirements
+
+### 3.1 Dashboard
+
+- Provide an overview of the selected region's environmental conditions.
+- Display four primary telemetry metrics:
+  - Soil Moisture
+  - Land Surface Temperature
+  - Vegetation Health (NDVI)
+  - Rainfall
+- Show metric values, units, observation dates, and data sources.
+- Visually communicate metric status.
+- Clearly distinguish unavailable and cached data.
+- Provide a summary of available environmental information.
+- Include an explanation of relevant data limitations.
+
+### 3.2 Interactive Map
+
+- Display the supported Myanmar regions.
+- Allow users to select a region.
+- Update dashboard telemetry when the selected region changes.
+- Display NASA satellite imagery using the available map tile API.
+- Allow users to switch between Terra and Aqua true-color imagery.
+- Display the imagery date.
+- Provide intuitive map controls and region information.
+- Clearly distinguish representative sample locations from regional averages.
+
+### 3.3 Agricultural Advisory
+
+- Provide an agricultural advisory form.
+- Allow users to select:
+  - Region
+  - Soil type
+  - Current crop
+  - Target season
+- Validate inputs before submission.
+- Execute advisory evaluation only when the user clicks Evaluate.
+- Display irrigation recommendations and urgency.
+- Display pest screening scores and confidence.
+- Display suggested crop rotation options and suitability scores.
+- Explain recommendations using the backend-provided rationale.
+- Display the backend disclaimer.
+
+### 3.4 Data Exploration
+
+- Allow users to explore telemetry across supported regions.
+- Support custom date ranges within backend restrictions.
+- Make observation dates easy to identify.
+- Display available data sources and limitations.
+- Make it easy to understand differences between environmental metrics.
+
+### 3.5 Educational Context
+
+- Include short explanations of NASA Earth observation metrics.
+- Explain what soil moisture, land surface temperature, NDVI, and rainfall represent.
+- Explain why these measurements matter for agriculture.
+- Keep explanations concise and accessible to non-technical users.
+
+## 4. Creative UX Ideas
+
+Explore these ideas when they can be implemented using the existing backend data.
+
+### Pixel Field Identity
+
+- Create a small animated pixel-art field/share icon.
+- Use subtle pixel transitions or growth-inspired animation.
+- Use the icon as part of the application's visual identity.
+
+### Environmental Status Visualization
+
+- Use intuitive visual indicators for telemetry status.
+- Create small charts or visual trends when sufficient historical data is available.
+- Use clear labels and measurement units.
+
+### Regional Exploration
+
+- Create an engaging region-selection experience.
+- Show the selected region's available environmental information.
+- Make switching between regions simple and intuitive.
+
+### NASA Observation Explorer
+
+- Let users explore Terra and Aqua satellite imagery.
+- Display the imagery date and layer information.
+- Provide context about the satellite imagery without implying it represents exact ground measurements.
+
+### Farming Decision Workspace
+
+- Organize environmental telemetry and agricultural advisory results in one coherent experience.
+- Help users understand the environmental information before evaluating recommendations.
+- Present advisory results with clear explanations rather than unexplained scores.
+
+These are optional design opportunities, not requirements to invent additional data or backend capabilities.
+
+## 5. Data Integrity Rules
+
+- Use NASA-related information supplied through the production backend API.
+- Do not invent NASA measurements, historical values, forecasts, or agricultural recommendations.
+- Do not replace missing API values with fabricated data.
+- Do not use hardcoded telemetry values in the production interface.
+- Distinguish NASA observations from user-provided agricultural inputs.
+- Preserve backend-provided measurement units, observation dates, statuses, and limitations.
+- Never present representative sample points as regional averages.
+- Do not claim that satellite imagery provides exact ground-level measurements.
+- Clearly distinguish observed data from advisory interpretations.
+- Do not describe advisory screening scores as measured probabilities.
+- Do not present non-forecast-based recommendations as weather forecasts.
+
+## 6. Non-Functional Requirements
+
+### Performance
+
+- Keep the interface responsive and lightweight.
+- Avoid unnecessary dependencies.
+- Use efficient API fetching and caching through SWR.
+- Avoid unnecessary component re-renders.
+- Optimize map and imagery loading.
+
+### Maintainability
+
+- Use reusable React components.
+- Follow separation of concerns.
+- Keep API integration separate from presentation components.
+- Maintain clear feature-based organization.
+- Use TypeScript for API responses and application data.
+- Avoid unnecessary abstractions and overengineering.
+
+### Accessibility
+
+- Use sufficient color contrast.
+- Provide readable typography.
+- Support keyboard navigation.
+- Include accessible labels for interactive controls.
+- Do not communicate information through color alone.
+- Respect reduced-motion preferences.
+
+### Reliability
+
+- Handle loading, error, partial, unavailable, and empty states.
+- Provide retry actions for failed requests.
+- Validate user inputs.
+- Prevent invalid API requests.
+- Preserve existing UI functionality during integration.
+
+## 7. Frontend Architecture
+
+### Tech Stack
+
+- React / Next.js or the framework already configured in the project.
+- TypeScript.
+- SWR.
+- Zustand.
+- React Hook Form.
+- Zod.
+- Existing styling system and UI component library.
+
+### Application Style
+
+- SPA-style user experience.
+- Smooth client-side navigation.
+- Shared application layout.
+- Reusable feature components.
+
+### State Management Responsibilities
+
+- SWR: API data fetching, caching, and revalidation.
+- Zustand: Client-side UI state.
+- React Hook Form: Form state and submission.
+- Zod: Input validation.
+
+Avoid duplicating server-side API state in Zustand.
+
+## 8. Backend API Integration
+
+### API Configuration
+- Production API Base URL: `https://fieldshiftadaptingfarmswithnasadatabackend-production.up.railway.app`
+- Store the API base URL in a public environment variable:
+  - Next.js: `NEXT_PUBLIC_API_BASE_URL`
+  - Vite: `VITE_API_BASE_URL`
+- Use browser-side API requests.
+- Prevent duplicate trailing slashes when constructing URLs.
+- Never expose secrets or NASA Earthdata tokens in frontend code.
+- Do not modify backend code.
+
+### 1. Telemetry API
+
+**Endpoint:** `GET /api/v1/telemetry/region/{region_id}`
+
+Supported regions:
+- `ayeyarwady`
+- `central_dry_zone`
+- `shan_highlands`
+- `coastal_rakhine`
+
+Optional query parameters:
+- `start_date=YYYY-MM-DD`
+- `end_date=YYYY-MM-DD`
+
+Requirements:
+- Fetch telemetry whenever the selected region changes.
+- Support optional date ranges. Custom ranges must not exceed 90 days or include future dates.
+- Use backend default dates when no date range is provided.
+- Display soil moisture, land surface temperature, vegetation health (NDVI), and rainfall.
+- Display metric sources and observation dates.
+- Clearly identify cached data when `stale_cache=true`.
+- Handle `success`, `partial`, and `unavailable` response statuses.
+- Display available metrics when the response is partial.
+- Display `Data unavailable` for null or unavailable values. Never substitute zero.
+- Include loading, error, and retry states.
+
+Data interpretation rules:
+- `sample_location` represents a representative point, not a regional average.
+- Do not describe `surface_wetness_fraction` as SMAP volumetric soil moisture.
+- `land_surface_temp.anomaly` can be null.
+- Do not treat CMR granule IDs as the exact source of individual metric values.
+- Display data limitations where appropriate.
+
+### 2. Agricultural Advisory API
+
+**Endpoint:** `POST /api/v1/advisory/evaluate`
+
+**Content-Type:** `application/json`
+
+Request fields:
+- `region_id`: Valid supported region ID.
+- `soil_type`: `sandy_loam`, `loam`, `clay`, `silt`, or `unknown`.
+- `current_crop`: Required string, maximum 40 characters.
+- `target_season`: `monsoon`, `dry`, or `cool`.
+
+Requirements:
+- Use React Hook Form and Zod for form handling and validation.
+- Submit the request only when the user clicks the Evaluate button.
+- Display loading and error states.
+- Display irrigation recommendations, pest screening scores, crop rotation options, and the backend disclaimer.
+
+Data interpretation rules:
+- `pest_risk.score_percentage` must be labelled as a screening score, not measured pest probability.
+- If `irrigation.forecast_based=false`, do not describe recommendations as forecasts or next-48-hour predictions.
+- Handle null pest risk scores appropriately.
+- Always display the backend disclaimer.
+
+### 3. NASA Map Tiles
+
+**Endpoint:** `GET /api/v1/tiles/{layer}/{date}/{z}/{x}/{y}.jpg`
+
+Supported layers:
+- `true_color_terra`
+- `true_color_aqua`
+
+Requirements:
+- Use the map library's tile URL template.
+- Construct tile URLs using the configured API base URL.
+- Support Web Mercator tile coordinates (`z`, `x`, `y`).
+- Zoom level must be between 0 and 9.
+- Use a telemetry observation date or user-selected past date for map tiles.
+
+### 4. Error Handling and CORS
+
+- Handle HTTP errors and display the backend-provided error message.
+- Support retry actions for failed requests.
+- Handle HTTP 400 responses using the backend error structure.
+- Be aware that browser CORS errors may occur if the latest backend CORS configuration has not been deployed.
+- If deploying under a custom frontend domain, provide the complete domain to the backend maintainer for CORS configuration.
+
+### 5. Frontend State Management Responsibilities
+
+- **SWR:** API data fetching, caching, and revalidation.
+- **Zustand:** Client-side UI state, such as selected region and map filters.
+- **React Hook Form:** Advisory form state and submission.
+- **Zod:** Request input validation.
+
+Avoid duplicating API server state in Zustand.
+
+### 6. Integration Acceptance Criteria
+
+- Region changes retrieve live telemetry from the production Railway API.
+- Advisory form submission returns live backend results.
+- Loading, error, partial, null, and unavailable states work correctly.
+- Cached telemetry is clearly identified.
+- NASA map tiles load when the map interface is enabled.
+- No hardcoded or mock NASA telemetry/advisory values remain.
+- Browser Network tab confirms requests are sent to the production API.
+- Existing UI design, framework, component structure, and styling are preserved.
+- Frontend integration must not require backend code changes.
+
+## 9. Development Guidelines
+
+- Inspect the existing project before implementation.
+- Preserve the existing framework and configuration.
+- Use the provided UI as a design reference, not a reason to replace everything.
+- Build the interface incrementally.
+- Prioritize functional requirements over decorative features.
+- Integrate real backend data instead of mock telemetry.
+- Do not modify backend code.
+- Do not introduce unnecessary packages.
+- Do not invent unsupported API endpoints or response fields.
+- Test the application at desktop and mobile screen sizes.
+
+## 10. Project Success Criteria
+
+Farm Sense should deliver:
+
+1. A visually distinctive pixel-inspired agricultural dashboard.
+2. An interactive map with NASA satellite imagery.
+3. Live environmental telemetry for supported Myanmar regions.
+4. An agricultural advisory interface using the production backend.
+5. Clear explanations of NASA Earth observation data.
+6. Accurate presentation of data limitations and uncertainty.
+7. A responsive and accessible user experience.
+8. A working prototype suitable for the NASA Space Apps Challenge hackathon.
+
+
